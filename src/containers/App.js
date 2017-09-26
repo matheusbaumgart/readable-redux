@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchPosts } from '../actions'
+import { fetchPosts, fetchCategories } from '../actions'
 // import Posts from '../components/Posts'
 
 class App extends Component {
@@ -13,15 +13,17 @@ class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(fetchPosts())
+    dispatch(fetchCategories())
   }
 
   componentWillReceiveProps(nextProps) {
-      const { dispatch } = nextProps
-      dispatch(fetchPosts())
+    const { dispatch } = nextProps
+    dispatch(fetchPosts())
+    dispatch(fetchCategories())
   }
 
   render() {
-    const { posts, isFetching } = this.props
+    const { posts, categories } = this.props
     const isEmpty = posts.length === 0
     return (
       <div>
@@ -31,9 +33,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state, posts) => {
+const mapStateToProps = (state, posts, categories) => {
   return {
-    posts
+    posts,
+    categories
   }
 }
 
