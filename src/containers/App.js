@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchPosts, fetchCategories } from '../actions'
-// import Posts from '../components/Posts'
+import Posts from '../components/Posts.js'
 
 class App extends Component {
   static propTypes = {
-    posts: PropTypes.object.isRequired,
+    posts: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired
   }
 
@@ -16,24 +16,24 @@ class App extends Component {
     dispatch(fetchCategories())
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch } = nextProps
-    dispatch(fetchPosts())
-    dispatch(fetchCategories())
-  }
-
   render() {
     const { posts, categories } = this.props
     const isEmpty = posts.length === 0
+    console.log('====================================');
+    console.log(this.props);
+    console.log('====================================');
     return (
       <div>
-        <h1>Test</h1>
+        <h1>Posts</h1>
+        <Posts posts={posts.items} />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, posts, categories) => {
+const mapStateToProps = state => {
+  const { posts, categories } = state
+
   return {
     posts,
     categories
