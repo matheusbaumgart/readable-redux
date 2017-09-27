@@ -1,12 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
 import { fetchPosts, fetchCategories } from '../actions'
+
 import Posts from '../components/Posts.js'
+import Categories from '../components/Categories.js'
+
+import CategoryPage from '../containers/CategoryPage.js'
+import PostPage from '../containers/PostPage.js'
 
 class App extends Component {
   static propTypes = {
-    posts: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired
   }
 
@@ -19,14 +30,24 @@ class App extends Component {
   render() {
     const { posts, categories } = this.props
     const isEmpty = posts.length === 0
-    console.log('====================================');
-    console.log(this.props);
-    console.log('====================================');
+
     return (
-      <div>
-        <h1>Posts</h1>
-        <Posts posts={posts.items} />
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/" render={() => (
+            <div>
+              <h1>Categories</h1>
+              <Categories categories={categories.items} />
+
+              <h1>Posts</h1>
+              <Posts posts={posts.items} />
+            </div>
+          )} />
+
+          <Route exact path="/:category" component={CategoryPage} />
+          <Route exact path="/:category/:post_id" component={PostPage} />
+        </div>
+      </Router>
     )
   }
 }
