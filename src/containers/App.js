@@ -28,8 +28,7 @@ class App extends Component {
   }
 
   render() {
-    const { posts, categories } = this.props
-    const isEmpty = posts.length === 0
+    const { posts, categories, dispatch } = this.props
 
     return (
       <Router>
@@ -57,7 +56,7 @@ const mapStateToProps = state => {
 
   return {
     posts,
-    categories
+    categories,
   }
 }
 
