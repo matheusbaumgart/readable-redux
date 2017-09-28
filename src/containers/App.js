@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 
 import {
   BrowserRouter as Router,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 
 import { fetchPosts, fetchCategories } from '../actions'
@@ -28,17 +27,19 @@ class App extends Component {
   }
 
   render() {
-    const { posts, categories, dispatch } = this.props
+    const { posts, categories } = this.props
 
     return (
       <Router>
-        <div>
+        <div className="container">
           <Route exact path="/" render={() => (
             <div>
-              <h1>Categories</h1>
+              <h2>Categories</h2>
               <Categories categories={categories.items} />
 
-              <h1>Posts</h1>
+              <hr />
+
+              <h2>Posts</h2>
               <Posts posts={posts.items} />
             </div>
           )} />

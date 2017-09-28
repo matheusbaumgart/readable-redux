@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
 import {
-  REQUEST_POSTS, RECEIVE_POSTS,
+  REQUEST_POSTS, RECEIVE_POSTS, ADD_POST, DELETE_POST,
   REQUEST_CATEGORIES, RECEIVE_CATEGORIES,
-  REQUEST_COMMENTS, RECEIVE_COMMENTS
+  REQUEST_COMMENTS, RECEIVE_COMMENTS,
+  SHOW_MODAL, HIDE_MODAL,
 } from '../actions'
 
 // POSTS
@@ -21,6 +23,16 @@ const posts = (state = {
         ...state,
         isFetching: false,
         items: action.posts,
+      }
+    case ADD_POST:
+      return {
+        ...state,
+        items: [...state.items, action.post]
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        items: state.items.filter(post => post.id !== action.postID)
       }
     default:
       return state
@@ -71,10 +83,34 @@ const comments = (state = {
   }
 }
 
+//  MODAL
+const modalInitialState = {
+  modalType: null,
+  modalProps: {
+    modalIsOpen: false
+  }
+}
+
+const modal = (state = modalInitialState, action) => {
+  switch (action.type) {
+    case SHOW_MODAL:
+      return {
+        modalType: action.modalType,
+        modalProps: action.modalProps
+      }
+    case HIDE_MODAL:
+      return modalInitialState
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
-    posts,
-    categories,
-    comments
+  posts,
+  categories,
+  comments,
+  modal,
+  form: formReducer
 })
 
 export default rootReducer

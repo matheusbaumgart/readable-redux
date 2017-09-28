@@ -1,10 +1,15 @@
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const ADD_POST = 'ADD_POST'
+export const DELETE_POST = 'DELETE_POST'
 export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const SHOW_MODAL = 'SHOW_MODAL'
+export const HIDE_MODAL = 'HIDE_MODAL'
 
+const uuidv1 = require('uuid/v1');
 const url = 'http://localhost:3001'
 const header = { headers: { 'Authorization': 'udacity-readable' } }
 
@@ -13,16 +18,56 @@ export const requestPosts = () => ({
     type: REQUEST_POSTS,
 })
 
-export const receivePosts = data => ({
+export const receivePosts = posts => ({
     type: RECEIVE_POSTS,
-    posts: data,
+    posts: posts,
+})
+
+export const addPost = post => ({
+    type: ADD_POST,
+    post
+})
+
+export const deletePost = postID => ({
+    type: DELETE_POST,
+    postID
 })
 
 export const fetchPosts = category => dispatch => {
     dispatch(requestPosts())
     return fetch(category ? `${url}/${category}/posts/` : `${url}/posts/`, header)
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => { dispatch(receivePosts(data)) })
+}
+
+export const submitPost = post => dispatch => {
+    return fetch(`${url}/posts`, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'udacity-readable',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            author: post.author,
+            body: post.body,
+            title: post.title,
+            category: post.category,
+            timestamp: Date.now(),
+            id: uuidv1()
+        })
+    }).then(res => res.json())
+        .then(data => { dispatch(addPost(data)) })
+}
+
+export const submitDeletePost = postID => dispatch => {
+    return fetch(`${url}/posts/${postID}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'udacity-readable',
+            'Content-Type': 'application/json'
+        }
+    }).then(() => { dispatch(deletePost(postID)) })
+
 }
 
 // CATEGORIES
@@ -32,27 +77,46 @@ export const requestCategories = () => ({
 
 export const receiveCategories = data => ({
     type: RECEIVE_CATEGORIES,
-    categories: data,
+    categories: data.categories,
 })
 
 export const fetchCategories = () => dispatch => {
     dispatch(requestCategories())
     return fetch(`${url}/categories/`, header)
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => { dispatch(receiveCategories(data)) })
 }
 
 // COMMENTS
-export const requestComments = () => ({
-    type: REQUEST_COMMENTS,
-})
+// export const requestComments = () => ({
+//     type: REQUEST_COMMENTS,
+// })
 
-export const receiveComments = data => ({
-    type: RECEIVE_COMMENTS,
-    comments: data
-})
+// export const receiveComments = data => ({
+//     type: RECEIVE_COMMENTS,
+//     comments: data
+// })
 
 export const fetchComments = postID => {
     return fetch(`${url}/posts/${postID}/comments`, header)
-    .then((res) => res.json())
+        .then((res) => res.json())
+}
+
+
+// ADD AND EDIT MODAL
+export function showModal(modalType) {
+    return {
+        type: SHOW_MODAL,
+        modalType: modalType,
+        modalProps: {
+            modalIsOpen: true
+        }
+    }
+}
+
+export function hideModal(modal) {
+    return {
+        type: HIDE_MODAL,
+        modal
+    }
 }

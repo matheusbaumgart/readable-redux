@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchComments } from '../actions'
+import { fetchComments, submitDeletePost } from '../actions'
 
 import { Icon } from 'react-fa'
 import Moment from 'react-moment';
@@ -28,8 +28,14 @@ class Post extends Component {
         })
     }
 
+    deletePost = () => {
+        const { dispatch, post } = this.props
+        dispatch(submitDeletePost(post.id))
+    }
+
     render() {
         const { post } = this.props
+
 
         return (
             <tr>
@@ -56,12 +62,16 @@ class Post extends Component {
                     <Moment format="YYYY/MM/DD HH:mm">{post.timestamp}</Moment>
                 </td>
                 <td>
-                    <Icon name="pencil" className="post-action-link" data-id={post.id} onClick={this.openModal} />
-                    <Icon name="remove" className="post-action-link" data-id={post.id} onClick={this.deletePost} />
+                    <Icon name="pencil" className="post-action-link" onClick={this.openModal} />
+                    <Icon name="remove" className="post-action-link" onClick={this.deletePost} />
                 </td>
             </tr>
         )
     }
 }
 
-export default Post
+const mapStateToProps = state => {
+    return {}
+}
+
+export default connect(mapStateToProps)(Post)

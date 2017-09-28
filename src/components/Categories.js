@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 const Categories = ({ categories }) => (
-    <ul>
+    <ul className="category-list">
         {categories.map((category, i) =>
-            <li key={i}>
-                <Link key={category.name} to={category.name}>
-                    {category.name}
-                </Link>
-            </li>
+            <Link key={category.name} to={category.name}>
+                <li key={i}>
+                    <p>{category.name}</p>
+                </li>
+            </Link>
         )}
     </ul>
 )

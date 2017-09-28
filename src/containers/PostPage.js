@@ -7,10 +7,6 @@ class PostPage extends Component {
         dispatch: PropTypes.func.isRequired
     }
 
-    componentDidMount() {
-        const { dispatch } = this.props
-    }
-
     render() {
         return (
             <div>
