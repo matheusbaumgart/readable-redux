@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import Post from './Post'
+import { showModal } from '../actions'
 import AddEditPostModal from './AddEditPostModal'
+import Post from './Post'
 
 class Posts extends Component {
+    openModal = () => {
+        const { dispatch } = this.props
+        dispatch(showModal('ADD_POST_MODAL'))
+    }
 
     render() {
         const { posts } = this.props
 
         return (
             <div>
+                <button onClick={this.openModal}>Add a new post</button>
+
                 <AddEditPostModal />
 
                 <table className="post-list">
@@ -42,4 +50,8 @@ Posts.propTypes = {
     posts: PropTypes.array.isRequired
 }
 
-export default Posts
+const mapStateToProps = state => {
+    return {}
+}
+
+export default connect(mapStateToProps)(Posts)

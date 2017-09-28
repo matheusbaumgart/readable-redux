@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import {
-  REQUEST_POSTS, RECEIVE_POSTS, ADD_POST, DELETE_POST,
+  REQUEST_POSTS, RECEIVE_POSTS, ADD_POST, DELETE_POST, EDIT_POST,
   REQUEST_CATEGORIES, RECEIVE_CATEGORIES,
   REQUEST_COMMENTS, RECEIVE_COMMENTS,
-  SHOW_MODAL, HIDE_MODAL,
+  SHOW_MODAL, HIDE_MODAL, LOAD_MODAL
 } from '../actions'
 
 // POSTS
@@ -28,6 +28,16 @@ const posts = (state = {
       return {
         ...state,
         items: [...state.items, action.post]
+      }
+    case EDIT_POST:
+      return {
+        ...state,
+        items: state.items.map((item, index) => {
+          if (item.id !== action.post.id) {
+            return item;
+          }
+          return action.post;
+        })
       }
     case DELETE_POST:
       return {
@@ -100,6 +110,10 @@ const modal = (state = modalInitialState, action) => {
       }
     case HIDE_MODAL:
       return modalInitialState
+    case LOAD_MODAL:
+      return {
+        data: action.data
+      }
     default:
       return state
   }

@@ -1,6 +1,7 @@
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const ADD_POST = 'ADD_POST'
+export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
@@ -8,6 +9,8 @@ export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'
+export const LOAD_MODAL = 'LOAD_MODAL'
+
 
 const uuidv1 = require('uuid/v1');
 const url = 'http://localhost:3001'
@@ -25,6 +28,11 @@ export const receivePosts = posts => ({
 
 export const addPost = post => ({
     type: ADD_POST,
+    post
+})
+
+export const editPost = post => ({
+    type: EDIT_POST,
     post
 })
 
@@ -57,6 +65,21 @@ export const submitPost = post => dispatch => {
         })
     }).then(res => res.json())
         .then(data => { dispatch(addPost(data)) })
+}
+
+export const submitUpdatePost = post => dispatch => {
+    return fetch(`${url}/posts/${post.id}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': 'udacity-readable',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: post.title,
+            body: post.body
+        })
+    }).then(res => res.json())
+        .then(data => { dispatch(editPost(data)) })
 }
 
 export const submitDeletePost = postID => dispatch => {
@@ -104,12 +127,13 @@ export const fetchComments = postID => {
 
 
 // ADD AND EDIT MODAL
-export function showModal(modalType) {
+export function showModal(modalType, data) {
     return {
         type: SHOW_MODAL,
         modalType: modalType,
         modalProps: {
-            modalIsOpen: true
+            modalIsOpen: true,
+            data: data
         }
     }
 }

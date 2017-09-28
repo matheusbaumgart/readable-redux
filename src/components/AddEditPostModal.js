@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { showModal, hideModal, submitPost } from '../actions'
+import { compose } from 'redux';
+import { showModal, hideModal, submitPost, submitUpdatePost } from '../actions'
 import Modal from 'react-modal'
 import { Field, reduxForm } from 'redux-form'
 
@@ -57,12 +58,11 @@ const renderSelect = ({ input, label, type, data, meta: { touched, error, warnin
     </div>
 )
 
-class AddEditPostModal extends Component {
+const data = {
 
-    openModal = () => {
-        const { dispatch } = this.props
-        dispatch(showModal('SAVE_POST_MODAL'))
-    }
+}
+
+class AddEditPostModal extends Component {
 
     closeModal = () => {
         const { dispatch } = this.props
@@ -71,21 +71,31 @@ class AddEditPostModal extends Component {
     }
 
     sendFormData = (post) => {
-        const { dispatch } = this.props
-        dispatch(submitPost(post))
-            .then(() => {
-                this.closeModal();
-            })
-        // this.props.reset();
+        const { dispatch, modal } = this.props
+        if (modal.modalType == 'ADD_POST_MODAL') {
+            dispatch(submitPost(post))
+                .then(() => {
+                    this.closeModal();
+                })
+        }
+
+        if (modal.modalType == 'EDIT_POST_MODAL') {
+            dispatch(submitUpdatePost(post))
+                .then(() => {
+                    this.closeModal();
+                })
+        }
+
+        this.props.reset();
     }
+
 
     render() {
         const { modal, handleSubmit, pristine, submitting, categories } = this.props
 
         return (
-            <div>
-                <button onClick={this.openModal}>Add a new post</button>
 
+            <div>
                 <Modal
                     isOpen={modal.modalProps.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
@@ -136,21 +146,19 @@ class AddEditPostModal extends Component {
 }
 
 
-function mapStateToProps({ modal, post, categories }) {
+function mapStateToProps({ modal, categories }) {
     return (
         {
             modal,
-            post,
-            categories
+            categories,
+            initialValues: modal.modalProps.data
         }
     )
 }
 
-AddEditPostModal = connect(
-    mapStateToProps
+export default compose(
+    connect(
+        mapStateToProps,
+    ),
+    reduxForm({ form: 'savePostForm' })
 )(AddEditPostModal);
-
-export default reduxForm({
-    form: 'savePostForm', // a unique name for this form
-    required
-})(AddEditPostModal);

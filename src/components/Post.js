@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchComments, submitDeletePost } from '../actions'
+import { fetchComments, submitDeletePost, showModal } from '../actions'
 
 import { Icon } from 'react-fa'
 import Moment from 'react-moment';
@@ -28,6 +28,11 @@ class Post extends Component {
         })
     }
 
+    openModal = () => {
+        const { dispatch, post } = this.props
+        dispatch(showModal('EDIT_POST_MODAL', post))
+    }
+
     deletePost = () => {
         const { dispatch, post } = this.props
         dispatch(submitDeletePost(post.id))
@@ -35,7 +40,6 @@ class Post extends Component {
 
     render() {
         const { post } = this.props
-
 
         return (
             <tr>
@@ -70,8 +74,9 @@ class Post extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {}
+function mapStateToProps(state) {
+    return (
+        {}
+    )
 }
-
 export default connect(mapStateToProps)(Post)
