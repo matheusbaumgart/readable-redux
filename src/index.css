@@ -242,6 +242,15 @@ body {
   .vote-icon.down{
     color: red;
   }
+
+  .order-selector{
+    /* background: none; */
+    /* border: 0; */
+    padding: 0;
+    height: 35px;
+    font-weight: 600;
+    /* text-decoration: underline; */
+  }
   
   /* COMMENT BADGE */
   .comment-counter-container{

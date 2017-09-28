@@ -7,17 +7,54 @@ import AddEditPostModal from './AddEditPostModal'
 import Post from './Post'
 
 class Posts extends Component {
+    constructor(){
+        super();
+
+        this.state = {
+            orderBy: 'score'
+        }
+    }
+
     openModal = () => {
         const { dispatch } = this.props
         dispatch(showModal('ADD_POST_MODAL'))
     }
 
+    handleOrder = (option) => {
+        this.setState({
+            orderBy: option.target.value
+        })
+    }
+
     render() {
         const { posts } = this.props
 
+        var filteredPosts = posts;
+
+        // Ordering by Lowest to Highest Score
+        if (this.state.orderBy === 'date') {
+            filteredPosts = posts.sort(function (a, b) { return b.timestamp - a.timestamp; })
+        } else {
+            filteredPosts = posts.sort(function (a, b) { return b.voteScore - a.voteScore; })
+        }
+
         return (
             <div>
-                <button onClick={this.openModal}>Add a new post</button>
+                <div className="flex space-between">
+                    <div>
+                        <button onClick={this.openModal}>Add a new post</button>
+                    </div>
+
+                    <div className="flex">
+                        <div className="margin-right">Order by </div>
+                        <div>
+                            <select onChange={this.handleOrder} className="order-selector" name="orderBy" placeholder="order by">
+                                <option value="vote">vote</option>
+                                <option value="date">date</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
                 <AddEditPostModal />
 

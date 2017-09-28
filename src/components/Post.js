@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchComments, submitDeletePost, showModal } from '../actions'
+import { fetchComments, submitDeletePost, showModal, submitVote } from '../actions'
 
 import { Icon } from 'react-fa'
 import Moment from 'react-moment';
@@ -36,6 +36,16 @@ class Post extends Component {
     deletePost = () => {
         const { dispatch, post } = this.props
         dispatch(submitDeletePost(post.id))
+    }
+
+    handleVoteDown = () => {
+        const { dispatch, post } = this.props
+        dispatch(submitVote(post.id, 'downVote'))
+    }
+
+    handleVoteUp = () => {
+        const { dispatch, post } = this.props
+        dispatch(submitVote(post.id, 'upVote'))
     }
 
     render() {

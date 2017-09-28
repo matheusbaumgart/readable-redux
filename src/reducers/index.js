@@ -4,7 +4,7 @@ import {
   REQUEST_POSTS, RECEIVE_POSTS, ADD_POST, DELETE_POST, EDIT_POST,
   REQUEST_CATEGORIES, RECEIVE_CATEGORIES,
   REQUEST_COMMENTS, RECEIVE_COMMENTS,
-  SHOW_MODAL, HIDE_MODAL, LOAD_MODAL
+  SHOW_MODAL, HIDE_MODAL
 } from '../actions'
 
 // POSTS
@@ -110,10 +110,6 @@ const modal = (state = modalInitialState, action) => {
       }
     case HIDE_MODAL:
       return modalInitialState
-    case LOAD_MODAL:
-      return {
-        data: action.data
-      }
     default:
       return state
   }

@@ -9,8 +9,6 @@ export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'
-export const LOAD_MODAL = 'LOAD_MODAL'
-
 
 const uuidv1 = require('uuid/v1');
 const url = 'http://localhost:3001'
@@ -90,7 +88,20 @@ export const submitDeletePost = postID => dispatch => {
             'Content-Type': 'application/json'
         }
     }).then(() => { dispatch(deletePost(postID)) })
+}
 
+export const submitVote = (postID, option) => dispatch => {
+    return fetch(`${url}/posts/${postID}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'udacity-readable',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            option: option
+        })
+    }).then(res => res.json())
+        .then(() => dispatch(fetchPosts()))
 }
 
 // CATEGORIES
