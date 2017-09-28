@@ -23,7 +23,7 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
     <div className="input-group">
         <label>{label}</label>
         <div>
-            <input className={touched && error && 'required-border'} {...input} placeholder={label} type={type} />
+            <input className={touched && error ? 'required-border' : ''} {...input} placeholder={label} type={type} />
             {touched && ((error && <div className="required-msg">{error}</div>) || (warning && <span>{warning}</span>))}
         </div>
     </div>
@@ -33,7 +33,7 @@ const renderTextarea = ({ input, label, type, meta: { touched, error, warning } 
     <div className="input-group">
         <label>{label}</label>
         <div>
-            <textarea {...input} className={touched && error && 'required-border'} placeholder={label} type={type} />
+            <textarea {...input} className={touched && error ? 'required-border' : ''} placeholder={label} type={type} />
             {touched && ((error && <div className="required-msg">{error}</div>) || (warning && <span>{warning}</span>))}
         </div>
     </div>
@@ -43,7 +43,7 @@ const renderSelect = ({ input, label, type, data, meta: { touched, error, warnin
     <div className="input-group">
         <label>{label}</label>
         <div>
-            <select {...input} className={touched && error && 'required-border'} type={type}>
+            <select {...input} className={touched && error ? 'required-border' : ''} type={type}>
                 <option value=""></option>
 
                 {data.items.map((data) => (
