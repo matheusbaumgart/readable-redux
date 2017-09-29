@@ -37,7 +37,7 @@ class PostPage extends Component {
     }
 
     render() {
-        const { post } = this.props
+        const { post, comments } = this.props
 
         return (
             <div>
@@ -61,19 +61,25 @@ class PostPage extends Component {
 
                 <br />
 
-                {this.props.comments.items.length}
-
                 <Score post={post} update={this.updatePost} />
 
                 <hr />
 
-                <h4>Comments</h4>
+                <h4>Comments ({comments.items.length})</h4>
+
+                <ul className="comments-list">
+                    {comments.items.map((comment, i) =>
+                        <li key={i}>
+                            <p>{comment.body}</p>
+                        </li>
+                    )}
+                </ul>
             </div>
         )
     }
 }
 
-const mapStateToProps = ({post, comments}) => {
+const mapStateToProps = ({ post, comments }) => {
     return {
         post,
         comments
