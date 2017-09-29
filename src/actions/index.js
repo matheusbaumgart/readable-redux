@@ -141,20 +141,26 @@ export const fetchCategories = () => dispatch => {
 }
 
 // COMMENTS
-// export const requestComments = () => ({
-//     type: REQUEST_COMMENTS,
-// })
+export const requestComments = () => ({
+    type: REQUEST_COMMENTS,
+})
 
-// export const receiveComments = data => ({
-//     type: RECEIVE_COMMENTS,
-//     comments: data
-// })
+export const receiveComments = data => ({
+    type: RECEIVE_COMMENTS,
+    comments: data
+})
 
-export const fetchComments = postID => {
+export const fetchComments = postID => dispatch => {
+    dispatch(requestComments())
     return fetch(`${url}/posts/${postID}/comments`, header)
-        .then((res) => res.json())
+        .then(res => res.json())
+        .then(data => { dispatch(receiveComments(data)) })
 }
 
+export const fetchAllComments = postID => {
+    return fetch(`${url}/posts/${postID}/comments`, header)
+        .then(res => res.json())
+}
 
 // ADD AND EDIT MODAL
 export function showModal(modalType, data) {

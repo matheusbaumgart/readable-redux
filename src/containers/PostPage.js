@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchPost } from '../actions'
+import { fetchPost, fetchComments, submitDeletePost, showModal } from '../actions'
+import AddEditPostModal from '../components/AddEditPostModal'
 
 import { Icon } from 'react-fa'
 import Moment from 'react-moment';
@@ -15,6 +16,7 @@ class PostPage extends Component {
         const { dispatch } = this.props
         const postID = this.props.match.params.post_id;
         dispatch(fetchPost(postID))
+        dispatch(fetchComments(postID))
     }
 
     updatePost = () => {
@@ -23,11 +25,24 @@ class PostPage extends Component {
         dispatch(fetchPost(postID))
     }
 
+    openModal = () => {
+        const { dispatch, post } = this.props
+        dispatch(showModal('EDIT_POST_MODAL', post))
+    }
+
+    deletePost = () => {
+        const { dispatch, post, history } = this.props
+        dispatch(submitDeletePost(post.id))
+        history.push('/')
+    }
+
     render() {
         const { post } = this.props
 
         return (
             <div>
+                <AddEditPostModal update={this.updatePost} />
+
                 <div className="flex space-between">
                     <div>
                         <h2 className="no-margin-bottom">{post.title}</h2>
@@ -46,6 +61,8 @@ class PostPage extends Component {
 
                 <br />
 
+                {this.props.comments.items.length}
+
                 <Score post={post} update={this.updatePost} />
 
                 <hr />
@@ -56,11 +73,10 @@ class PostPage extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    const { post } = state
-
+const mapStateToProps = ({post, comments}) => {
     return {
-        post
+        post,
+        comments
     }
 }
 

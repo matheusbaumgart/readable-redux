@@ -27,6 +27,7 @@ class Posts extends Component {
     }
 
     render() {
+
         const { posts } = this.props
 
         var filteredPosts = posts;

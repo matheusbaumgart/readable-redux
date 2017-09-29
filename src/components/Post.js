@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchComments, submitDeletePost, showModal } from '../actions'
+import { fetchPost, fetchAllComments, submitDeletePost, showModal } from '../actions'
 
 import { Icon } from 'react-fa'
 import Moment from 'react-moment';
@@ -12,7 +12,6 @@ import 'moment-timezone';
 import Score from './Score'
 
 class Post extends Component {
-
     constructor() {
         super();
 
@@ -22,8 +21,8 @@ class Post extends Component {
     }
 
     componentDidMount() {
-        const { post } = this.props
-        fetchComments(post.id).then(comments => {
+        const { post, dispatch } = this.props
+        fetchAllComments(post.id).then(comments => {
             this.setState({
                 comments: comments
             })
@@ -77,9 +76,9 @@ class Post extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps({ }) {
     return (
-        {}
+        { }
     )
 }
 export default connect(mapStateToProps)(Post)
