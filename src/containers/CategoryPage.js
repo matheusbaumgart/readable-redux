@@ -5,9 +5,6 @@ import { connect } from 'react-redux'
 import Posts from '../components/Posts.js'
 
 class CategoryPage extends Component {
-    static propTypes = {
-        dispatch: PropTypes.func.isRequired
-    }
 
     render() {
         const { posts } = this.props

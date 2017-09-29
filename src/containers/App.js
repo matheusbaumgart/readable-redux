@@ -6,6 +6,7 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { fetchPosts, fetchCategories } from '../actions'
 
@@ -31,21 +32,27 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="container">
-          <Route exact path="/" render={() => (
-            <div>
-              <h2>Categories</h2>
-              <Categories categories={categories.items} />
+        <div>
+          <Link className="header-link" to='/'>
+            <div className="header">Home</div>
+          </Link>
 
-              <hr />
+          <div className="container">
+            <Route exact path="/" render={() => (
+              <div>
+                <h2>Categories</h2>
+                <Categories categories={categories.items} />
 
-              <h2>Posts</h2>
-              <Posts posts={posts.items} />
-            </div>
-          )} />
+                <hr />
 
-          <Route exact path="/:category" component={CategoryPage} />
-          <Route exact path="/:category/:post_id" component={PostPage} />
+                <h2>Posts</h2>
+                <Posts posts={posts.items} />
+              </div>
+            )} />
+
+            <Route exact path="/:category" component={CategoryPage} />
+            <Route exact path="/:category/:post_id" component={PostPage} />
+          </div>
         </div>
       </Router>
     )

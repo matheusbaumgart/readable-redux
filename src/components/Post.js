@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchComments, submitDeletePost, showModal, submitVote } from '../actions'
+import { fetchComments, submitDeletePost, showModal } from '../actions'
 
 import { Icon } from 'react-fa'
 import Moment from 'react-moment';
 import 'moment-timezone';
+
+import Score from './Score'
 
 class Post extends Component {
 
@@ -38,28 +40,16 @@ class Post extends Component {
         dispatch(submitDeletePost(post.id))
     }
 
-    handleVoteDown = () => {
-        const { dispatch, post } = this.props
-        dispatch(submitVote(post.id, 'downVote'))
-    }
-
-    handleVoteUp = () => {
-        const { dispatch, post } = this.props
-        dispatch(submitVote(post.id, 'upVote'))
-    }
-
     render() {
         const { post } = this.props
 
         return (
             <tr>
                 <td>
-                    <div className="vote-score">{post.voteScore}</div>
-                    &nbsp;<Icon data-id={post.id} onClick={this.handleVoteDown} className="vote-icon down" name="caret-down" />
-                    &nbsp;<Icon data-id={post.id} onClick={this.handleVoteUp} className="vote-icon up" name="caret-up" />
+                    <Score post={post} />
                 </td>
                 <td>
-                    <Link to={{ pathname: post.category + '/' + post.id, }}>
+                    <Link to={post.category + '/' + post.id}>
                         {post.title}
                     </Link>
                     <div className="comment-counter-container">
@@ -73,9 +63,12 @@ class Post extends Component {
                     {post.category}
                 </td>
                 <td>
-                    <Moment format="YYYY/MM/DD HH:mm">{post.timestamp}</Moment>
+                    {post.author}
                 </td>
                 <td>
+                    <Moment format="YYYY/MM/DD HH:mm">{post.timestamp}</Moment>
+                </td>
+                <td align="right">
                     <Icon name="pencil" className="post-action-link" onClick={this.openModal} />
                     <Icon name="remove" className="post-action-link" onClick={this.deletePost} />
                 </td>

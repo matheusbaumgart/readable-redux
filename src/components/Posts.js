@@ -49,7 +49,7 @@ class Posts extends Component {
                         <div className="margin-right">Order by </div>
                         <div>
                             <select onChange={this.handleOrder} className="order-selector" name="orderBy" placeholder="order by">
-                                <option value="vote">vote</option>
+                                <option value="score">score</option>
                                 <option value="date">date</option>
                             </select>
                         </div>
@@ -61,9 +61,10 @@ class Posts extends Component {
                 <table className="post-list">
                     <thead>
                         <tr>
-                            <th width="120">Vote</th>
+                            <th width="120">Score</th>
                             <th>Title</th>
                             <th>Category</th>
+                            <th>Author</th>
                             <th>Date</th>
                             <th></th>
                         </tr>

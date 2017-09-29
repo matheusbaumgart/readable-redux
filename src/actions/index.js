@@ -1,5 +1,6 @@
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const RECEIVE_POST = 'RECEIVE_POST'
 export const ADD_POST = 'ADD_POST'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
@@ -9,6 +10,7 @@ export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'
+export const UPDATE_SCORE = 'UPDATE_SCORE'
 
 const uuidv1 = require('uuid/v1');
 const url = 'http://localhost:3001'
@@ -22,6 +24,11 @@ export const requestPosts = () => ({
 export const receivePosts = posts => ({
     type: RECEIVE_POSTS,
     posts: posts,
+})
+
+export const receivePost = post => ({
+    type: RECEIVE_POST,
+    post: post,
 })
 
 export const addPost = post => ({
@@ -39,12 +46,24 @@ export const deletePost = postID => ({
     postID
 })
 
+export const updateScore = postID => ({
+    type: UPDATE_SCORE,
+    postID
+})
+
 export const fetchPosts = category => dispatch => {
     dispatch(requestPosts())
     return fetch(category ? `${url}/${category}/posts/` : `${url}/posts/`, header)
         .then(res => res.json())
         .then(data => { dispatch(receivePosts(data)) })
 }
+
+export const fetchPost = postID => dispatch => {
+    return fetch(`${url}/posts/${postID}`, header)
+        .then(res => res.json())
+        .then(data => { dispatch(receivePost(data)) })
+}
+
 
 export const submitPost = post => dispatch => {
     return fetch(`${url}/posts`, {
