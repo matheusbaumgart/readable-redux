@@ -8,6 +8,8 @@ export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const EDIT_COMMENT = 'EDIT_COMMENT'
+export const DELETE_COMMENT = 'EDIT_COMMENT'
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'
 export const UPDATE_SCORE = 'UPDATE_SCORE'
@@ -150,6 +152,16 @@ export const receiveComments = data => ({
     comments: data
 })
 
+export const editComment = comment => ({
+    type: EDIT_COMMENT,
+    comment
+})
+
+export const deleteComment = commentID => ({
+    type: DELETE_COMMENT,
+    commentID
+})
+
 export const fetchComments = postID => dispatch => {
     dispatch(requestComments())
     return fetch(`${url}/posts/${postID}/comments`, header)
@@ -161,6 +173,33 @@ export const fetchAllComments = postID => {
     return fetch(`${url}/posts/${postID}/comments`, header)
         .then(res => res.json())
 }
+
+export const submitEditComment = (commentID, commentBody) => dispatch => {
+    return fetch(`${url}/comments/${commentID}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': 'udacity-readable',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            timestamp: Date.now(),
+            body: commentBody
+        })
+    }).then(res => res.json())
+        .then(data => { dispatch(editComment(data)) })
+}
+
+export const submitDeleteComment = commentID => dispatch => {
+    return fetch(`${url}/comments/${commentID}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'udacity-readable',
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(data => { dispatch(deleteComment(commentID)) })
+}
+
 
 // ADD AND EDIT MODAL
 export function showModal(modalType, data) {

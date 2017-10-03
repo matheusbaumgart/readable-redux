@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchPost, fetchComments, submitDeletePost, showModal } from '../actions'
 import AddEditPostModal from '../components/AddEditPostModal'
+import CommentAdd from '../components/comments/CommentAdd'
+import CommentsList from '../components/comments/CommentsList'
 
 import { Icon } from 'react-fa'
 import Moment from 'react-moment';
@@ -36,6 +38,16 @@ class PostPage extends Component {
         history.push('/')
     }
 
+    // editComment = (commentID, commentBody) => {
+    //     const { dispatch } = this.props
+    //     dispatch(submitEditComment(commentID, commentBody))
+    // }
+
+    // deleteComment = (commentID) => {
+    //     const { dispatch } = this.props
+    //     dispatch(submitDeleteComment(commentID))
+    // }
+
     render() {
         const { post, comments } = this.props
 
@@ -65,15 +77,12 @@ class PostPage extends Component {
 
                 <hr />
 
-                <h4>Comments ({comments.items.length})</h4>
+                <CommentAdd />
 
-                <ul className="comments-list">
-                    {comments.items.map((comment, i) =>
-                        <li key={i}>
-                            <p>{comment.body}</p>
-                        </li>
-                    )}
-                </ul>
+                <hr />  
+
+                <CommentsList comments={comments.items} />          
+               
             </div>
         )
     }
