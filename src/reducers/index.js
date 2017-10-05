@@ -3,7 +3,7 @@ import { reducer as formReducer } from 'redux-form'
 import {
   REQUEST_POSTS, RECEIVE_POSTS, ADD_POST, DELETE_POST, EDIT_POST, RECEIVE_POST,
   REQUEST_CATEGORIES, RECEIVE_CATEGORIES,
-  REQUEST_COMMENTS, RECEIVE_COMMENTS, EDIT_COMMENT, DELETE_COMMENT,
+  REQUEST_COMMENTS, RECEIVE_COMMENTS, EDIT_COMMENT, DELETE_COMMENT, ADD_COMMENT, CHANGE_COMMENT_VOTE,
   SHOW_MODAL, HIDE_MODAL,
   UPDATE_SCORE
 } from '../actions'
@@ -105,16 +105,38 @@ const comments = (state = {
       return {
         ...state,
         items: state.items.map((item, index) => {
-          if (item.id !== action.commentID) {
+          if (item.id !== action.id) {
             return item;
           }
-          return action.comment;
+          return {
+            ...item,
+            timestamp: action.timestamp,
+            body: action.body
+          }
+        })
+      }
+    case CHANGE_COMMENT_VOTE:
+      return {
+        ...state,
+        items: state.items.map((item, index) => {
+          if (item.id !== action.comment.id) {
+            return item;
+          }
+          return {
+            ...item,
+            voteScore: action.comment.voteScore
+          }
         })
       }
     case DELETE_COMMENT:
       return {
         ...state,
         items: state.items.filter(comment => comment.id !== action.commentID)
+      }
+    case ADD_COMMENT:
+      return {
+        ...state,
+        items: [...state.items, action.comment]
       }
     default:
       return state

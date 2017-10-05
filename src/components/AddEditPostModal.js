@@ -14,7 +14,7 @@ const modalStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        background: '#f1f1f1'
+        background: '#ffffff'
     }
 }
 

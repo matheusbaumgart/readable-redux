@@ -8,8 +8,10 @@ export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES'
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const REQUEST_COMMENTS = 'REQUEST_COMMENTS'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const CHANGE_COMMENT_VOTE = 'CHANGE_COMMENT_VOTE'
+export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
-export const DELETE_COMMENT = 'EDIT_COMMENT'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'
 export const UPDATE_SCORE = 'UPDATE_SCORE'
@@ -152,14 +154,26 @@ export const receiveComments = data => ({
     comments: data
 })
 
-export const editComment = comment => ({
+export const editComment = (id, body, timestamp) => ({
     type: EDIT_COMMENT,
-    comment
+    id,
+    body,
+    timestamp
 })
 
 export const deleteComment = commentID => ({
     type: DELETE_COMMENT,
     commentID
+})
+
+export const addComment = comment => ({
+    type: ADD_COMMENT,
+    comment
+})
+
+export const changeCommentVote = comment => ({
+    type: CHANGE_COMMENT_VOTE,
+    comment
 })
 
 export const fetchComments = postID => dispatch => {
@@ -186,7 +200,7 @@ export const submitEditComment = (commentID, commentBody) => dispatch => {
             body: commentBody
         })
     }).then(res => res.json())
-        .then(data => { dispatch(editComment(data)) })
+        .then(data => { dispatch(editComment(commentID, commentBody, Date.now())) })
 }
 
 export const submitDeleteComment = commentID => dispatch => {
@@ -198,6 +212,38 @@ export const submitDeleteComment = commentID => dispatch => {
         }
     }).then(res => res.json())
         .then(data => { dispatch(deleteComment(commentID)) })
+}
+
+export const submitAddComment = comment => dispatch => {
+    return fetch(`${url}/comments`, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'udacity-readable',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: comment.id,
+            timestamp: comment.timestamp,
+            body: comment.body,
+            author: comment.author,
+            parentId: comment.parentId
+        })
+    }).then(res => res.json())
+        .then(() => dispatch(addComment(comment)))
+}
+
+export const submitVoteComment = (commentID, option) => dispatch => {
+    return fetch(`${url}/comments/${commentID}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'udacity-readable',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            option: option
+        })
+    }).then(res => res.json())
+        .then(res => dispatch(changeCommentVote(res)))
 }
 
 

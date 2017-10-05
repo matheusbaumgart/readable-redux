@@ -38,16 +38,6 @@ class PostPage extends Component {
         history.push('/')
     }
 
-    // editComment = (commentID, commentBody) => {
-    //     const { dispatch } = this.props
-    //     dispatch(submitEditComment(commentID, commentBody))
-    // }
-
-    // deleteComment = (commentID) => {
-    //     const { dispatch } = this.props
-    //     dispatch(submitDeleteComment(commentID))
-    // }
-
     render() {
         const { post, comments } = this.props
 
@@ -77,7 +67,7 @@ class PostPage extends Component {
 
                 <hr />
 
-                <CommentAdd />
+                <CommentAdd postID={post.id} />
 
                 <hr />  
 
