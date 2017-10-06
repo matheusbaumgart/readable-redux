@@ -46,7 +46,18 @@ const posts = (state = {
         items: state.items.filter(post => post.id !== action.postID)
       }
     case UPDATE_SCORE:
-      return state
+      return {
+        ...state,
+        items: state.items.map((item, index) => {
+          if (item.id !== action.post.id) {
+            return item;
+          }
+          return {
+            ...item,
+            voteScore: action.post.voteScore
+          }
+        })
+      }
     default:
       return state
   }
@@ -56,6 +67,10 @@ const posts = (state = {
 const post = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_POST:
+      return action.post
+    case UPDATE_SCORE:
+      return action.post
+    case EDIT_POST:
       return action.post
     default:
       return state
@@ -147,7 +162,7 @@ const comments = (state = {
 const modalInitialState = {
   modalType: null,
   modalProps: {
-    modalIsOpen: false
+    modalIsOpen: false,
   }
 }
 

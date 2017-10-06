@@ -50,9 +50,9 @@ export const deletePost = postID => ({
     postID
 })
 
-export const updateScore = postID => ({
+export const updateScore = post => ({
     type: UPDATE_SCORE,
-    postID
+    post
 })
 
 export const fetchPosts = category => dispatch => {
@@ -124,7 +124,7 @@ export const submitVote = (postID, option) => dispatch => {
             option: option
         })
     }).then(res => res.json())
-        .then(() => dispatch(fetchPosts()))
+        .then(res => dispatch(updateScore(res)))
 }
 
 // CATEGORIES

@@ -21,12 +21,6 @@ class PostPage extends Component {
         dispatch(fetchComments(postID))
     }
 
-    updatePost = () => {
-        const { dispatch } = this.props
-        const postID = this.props.match.params.post_id;
-        dispatch(fetchPost(postID))
-    }
-
     openModal = () => {
         const { dispatch, post } = this.props
         dispatch(showModal('EDIT_POST_MODAL', post))
@@ -43,7 +37,7 @@ class PostPage extends Component {
 
         return (
             <div>
-                <AddEditPostModal update={this.updatePost} />
+                <AddEditPostModal />
 
                 <div className="flex space-between">
                     <div>
@@ -63,7 +57,7 @@ class PostPage extends Component {
 
                 <br />
 
-                <Score post={post} update={this.updatePost} />
+                <Score post={post} />
 
                 <hr />
 

@@ -86,9 +86,6 @@ class AddEditPostModal extends Component {
                 })
         }
 
-        if (this.props.update) {
-            this.props.update();
-        }
         this.props.reset();
     }
 

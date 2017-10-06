@@ -11,17 +11,11 @@ class Score extends Component {
     handleVoteDown = () => {
         const { dispatch, post } = this.props
         dispatch(submitVote(post.id, 'downVote'))
-        if (this.props.update) {
-            this.props.update();
-        }
     }
 
     handleVoteUp = () => {
         const { dispatch, post } = this.props
         dispatch(submitVote(post.id, 'upVote'))
-        if (this.props.update) {
-            this.props.update();
-        }
     }
 
     render() {

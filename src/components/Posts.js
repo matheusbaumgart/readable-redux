@@ -30,13 +30,11 @@ class Posts extends Component {
 
         const { posts } = this.props
 
-        var filteredPosts = posts;
-
         // Ordering by Lowest to Highest Score
         if (this.state.orderBy === 'date') {
-            filteredPosts = posts.sort(function (a, b) { return b.timestamp - a.timestamp; })
+            posts.sort(function (a, b) { return b.timestamp - a.timestamp; })
         } else {
-            filteredPosts = posts.sort(function (a, b) { return b.voteScore - a.voteScore; })
+            posts.sort(function (a, b) { return b.voteScore - a.voteScore; })
         }
 
         return (
