@@ -55,8 +55,8 @@ class CommentView extends Component {
                     <div className="comment-actions">
                         {this.state.editMode ?
                             <div>
-                                <button className="button-text margin-right--sm" onClick={() => this.editCommentCancel(comment.id)}>Cancel</button>
-                                <button className="button-text" onClick={() => this.editCommentSave(comment.id, this.state.commentBody)}><strong>Save</strong></button>
+                                <button style={{color: '#888'}} className="button-text margin-right--sm" onClick={() => this.editCommentCancel(comment.id)}>Cancel</button>
+                                <button style={{color: 'green'}} className="button-text" onClick={() => this.editCommentSave(comment.id, this.state.commentBody)}><strong>Save</strong></button>
                             </div>
                             :
                             <div>

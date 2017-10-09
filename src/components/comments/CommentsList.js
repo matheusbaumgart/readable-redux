@@ -5,6 +5,9 @@ import CommentView from './CommentView'
 
 class CommentsList extends Component {
     render() {
+        const { comments } = this.props
+        comments.sort(function (a, b) { return b.voteScore - a.voteScore; })
+
         return (
             <div>
                 <h4>All comments ({this.props.comments.length})</h4>
