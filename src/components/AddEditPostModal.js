@@ -151,7 +151,7 @@ function mapStateToProps({ modal, categories }) {
         {
             modal,
             categories,
-            initialValues: modal.modalProps.data
+            initialValues: modal.modalData
         }
     )
 }
@@ -160,5 +160,5 @@ export default compose(
     connect(
         mapStateToProps,
     ),
-    reduxForm({ form: 'savePostForm' })
+    reduxForm({ form: 'savePostForm', enableReinitialize: true })
 )(AddEditPostModal);

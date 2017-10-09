@@ -171,7 +171,8 @@ const modal = (state = modalInitialState, action) => {
     case SHOW_MODAL:
       return {
         modalType: action.modalType,
-        modalProps: action.modalProps
+        modalProps: action.modalProps,
+        modalData: action.modalData
       }
     case HIDE_MODAL:
       return modalInitialState

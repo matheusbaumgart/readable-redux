@@ -254,8 +254,8 @@ export function showModal(modalType, data) {
         modalType: modalType,
         modalProps: {
             modalIsOpen: true,
-            data: data
-        }
+        },
+        modalData: data
     }
 }
 
